@@ -1,6 +1,6 @@
 void rfqll(string fname){
     double x, xp, y, yp, phi, W;
-    ifstream rf(fname.c_str());
+    ifstream rf(Form("/Users/YASUDA/data/muonLinac/rfq/%s", fname.c_str()));
 
     double xsum = 0;
     double xpsum = 0;
@@ -21,7 +21,7 @@ void rfqll(string fname){
     }
 
     cout << "#####  AVERAGE  #####" << endl;
-
+    cout << "Enrty = " << nline << endl;
     cout << "x" << "\t" << "xp" << "\t" << "y" << "\t" << "yp" << "\t" << "phi" << "\t" << "W" << endl;
-    cout << x/nline << "\t" << xp/nline << "\t" << y/nline << "\t" << yp/nline << "\t" << phi/nline << "\t" << W << endl;
+    cout << xsum/nline << "\t" << xpsum/nline << "\t" << ysum/nline << "\t" << ypsum/nline << "\t" << phisum/nline << "\t" << Wsum/nline << endl;
 }

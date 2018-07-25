@@ -23,8 +23,8 @@ const int n = 6;
 // double yp;
 // double phi;
 // double Ek;
-double X[n]; // x, xp, y, yp, phi, Ek
-double Y[n]; // x, xp, y, yp, phi, Ek
+double X[n] = {}; // x, xp, y, yp, phi, Ek
+double Y[n] = {}; // x, xp, y, yp, phi, Ek
 // double Y[n];
 
 // Transfer matrix definition //
