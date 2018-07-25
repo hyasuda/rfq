@@ -58,6 +58,7 @@ void unit();
 void trans();
 void unitorigin();
 void add();
+void reset();
 
 void transfer(string outputfile = "rfqll_trans.dat"){
 
@@ -80,6 +81,7 @@ void transfer(string outputfile = "rfqll_trans.dat"){
         ofs  << scientific;
         ofs  << Y[0] << "\t" << Y[1] << "\t" << Y[2] << "\t" << Y[3] << "\t" << Y[4] << "\t" << Y[5] << endl;
         nline++;
+        reset();
     }
 }
 
@@ -157,5 +159,11 @@ void trans(){
 void add(){
     for(int i = 0 ; i < n ; i++){
         Y[i] = Y[i] + Xmean[i];
+    }
+}
+
+void reset(){
+    for(int i = 0 ; i < n ; i++){
+        Y[i] = 0;
     }
 }
