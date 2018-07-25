@@ -23,8 +23,20 @@ const int n = 6;
 // double yp;
 // double phi;
 // double Ek;
-double X[n] = {}; // x, xp, y, yp, phi, Ek
-double Y[n] = {}; // x, xp, y, yp, phi, Ek
+
+// Average //
+double xmean = 0;
+double xpmean = 0;
+double ymean = 0;
+double ypmean = 0;
+double phimean = 0;
+double Wmean = 0;
+int nline = 0;
+
+// Transfer components //
+double X[n]     = {}; // x, xp, y, yp, phi, Ek
+double Xmean[n] = {}; // x, xp, y, yp, phi, Ek
+double Y[n]     = {}; // x, xp, y, yp, phi, Ek
 // double Y[n];
 
 // Transfer matrix definition //
@@ -40,11 +52,16 @@ const double R[n][n] = {
 
 
 // function definition //
+void mean(string fname);
+void diff();
 void unit();
-void unitorigin();
 void trans();
+void unitorigin();
+void add();
 
 void transfer(string outputfile = "rfqll_trans.dat"){
+
+    mean( inputfile );
 
     stringstream filename;
     stringstream output;
@@ -54,21 +71,67 @@ void transfer(string outputfile = "rfqll_trans.dat"){
     int nline = 0;
 
     while(ifs >> X[0] >> X[1] >> X[2] >> X[3] >> X[4] >> X[5] ){
-        // if(nline > 0) break;
-        cout << "LINE : " << nline + 1 << endl;
-        // cout << scientific;
-        // cout << X[0] << "\t" << X[1] << "\t" << X[2] << "\t" << X[3] << "\t" << X[4] << "\t" << X[5] << endl;
+        // cout << "nline : " << nline << endl;
+        diff();
         unit();
-        // cout << X[0] << "\t" << X[1] << "\t" << X[2] << "\t" << X[3] << "\t" << X[4] << "\t" << X[5] << " keV " << endl;
         trans();
-        // cout << Y[0] << "\t" << Y[1] << "\t" << Y[2] << "\t" << Y[3] << "\t" << Y[4] << "\t" << Y[5] << endl;
         unitorigin();
-        // cout << Y[0] << "\t" << Y[1] << "\t" << Y[2] << "\t" << Y[3] << "\t" << Y[4] << "\t" << Y[5] << " MeV " << endl;
+        add();
         ofs  << scientific;
         ofs  << Y[0] << "\t" << Y[1] << "\t" << Y[2] << "\t" << Y[3] << "\t" << Y[4] << "\t" << Y[5] << endl;
         nline++;
     }
+}
 
+void mean(string fname){
+    int nline = 0;
+    double x, xp, y, yp, phi, W;
+    double xsum = 0;
+    double xpsum = 0;
+    double ysum = 0;
+    double ypsum = 0;
+    double phisum = 0;
+    double Wsum = 0;
+    double xmean = 0;
+    double xpmean = 0;
+    double ymean = 0;
+    double ypmean = 0;
+    double phimean = 0;
+    double Wmean = 0;
+
+    ifstream rf(Form("/Users/YASUDA/data/muonLinac/rfq/%s", fname.c_str()));
+
+    while(rf >> x >> xp >> y >> yp >> phi >> W){
+        xsum   += x;
+        xpsum  += xp;
+        ysum   += y;
+        ypsum  += yp;
+        phisum += phi;
+        Wsum   += W;
+        nline++;
+    }
+    xmean   = xsum/nline;
+    xpmean  = xpsum/nline;
+    ymean   = ysum/nline;
+    ypmean  = ypsum/nline;
+    phimean = phisum/nline;
+    Wmean   = Wsum/nline;
+    Xmean[0] = xmean;
+    Xmean[1] = xpmean;
+    Xmean[2] = ymean;
+    Xmean[3] = ypmean;
+    Xmean[4] = phimean;
+    Xmean[5] = Wmean;
+    cout << "#####  AVERAGE  #####" << endl;
+    cout << "Enrty = " << nline << endl;
+    cout << "x" << "\t" << "xp" << "\t" << "y" << "\t" << "yp" << "\t" << "phi" << "\t" << "W" << endl;
+    cout << xmean << "\t" << xpmean << "\t" << ymean << "\t" << ypmean << "\t" << phimean << "\t" << Wmean << endl;
+}
+
+void diff(){
+    for(int i = 0 ; i < n ; i++){
+        X[i] = X[i] - Xmean[i];
+    }
 }
 
 void unit(){
@@ -88,5 +151,11 @@ void trans(){
             Y[i] += R[i][j] * X[j];
         }
         // cout << endl;
+    }
+}
+
+void add(){
+    for(int i = 0 ; i < n ; i++){
+        Y[i] = Y[i] + Xmean[i];
     }
 }
