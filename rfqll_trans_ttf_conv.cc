@@ -29,14 +29,17 @@ void rfqll_trans_ttf_conv(string outputfile = "rfqll_trans_output.dat"){
 
     ifstream ifs(Form("/Users/YASUDA/data/muonLinac/rfq/%s", inputfile.c_str()));   // Input  file name
     ofstream ofs(Form("/Users/YASUDA/data/muonLinac/rfq/%s", outputfile.c_str())); // Output file name for muon after rfq
-
+    int nline = 0;
     while(ifs >> x >> xp >> y >> yp >> phase >> Ek){
-        P = sqrt(2*m_mu*Ek);
+        P = 2*m_mu*Ek;
+        if(P < 0) cout << nline << "\t" << P << "\t" << Ek << endl;
+        P = sqrt(P);
         conv();
         cout << scientific;
         ofs  << scientific;
-        cout << x << "\t" << xp << "\t" << y << "\t" << yp << "\t" << P << endl;
+        // cout << x << "\t" << xp << "\t" << y << "\t" << yp << "\t" << P << endl;
         ofs  << x << "\t" << xp << "\t" << y << "\t" << yp << "\t" << P << endl;
+        nline++;
     }
 }
 

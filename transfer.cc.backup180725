@@ -73,12 +73,37 @@ void transfer(string outputfile = "rfqll_trans.dat"){
 
     while(ifs >> X[0] >> X[1] >> X[2] >> X[3] >> X[4] >> X[5] ){
         // cout << "nline : " << nline << endl;
+        if(nline == 2928 || nline == 3701) cout << "nline = "<< nline << endl;
+        if(nline == 2928 || nline == 3701) cout << "X[5]  = "<<X[5] << "\t" << "Xmean[5] = "<< Xmean[5] << endl;
         diff();
+        if(nline == 2928 || nline == 3701){
+            cout << "X[4] - Xmean[4] = " << X[4] << endl;
+            cout << "X[5] - Xmean[5] = " << X[5] << endl;
+        }
         unit();
+        if(nline == 2928 || nline == 3701){
+            cout << "(X[4] - Xmean[4])*1000 = " << X[4] << endl;
+            cout << "(X[5] - Xmean[5])*1000 = " << X[5] << endl;
+        }
         trans();
+        if(nline == 2928 || nline == 3701){
+            cout << "Y[5] = R[5][4]*(X[4] - Xmean[4]) + R[5][5]*(X[5] - Xmean[5]) = " << Y[5] << endl;
+        }
         unitorigin();
+        if(nline == 2928 || nline == 3701){
+            cout << Y[5] << endl;
+        }
         add();
-        if(Y[5] < 0 ) continue;
+        if(nline == 2928 || nline == 3701){
+            cout << "(Y[5] + Xmean[5]) = " << Y[5] << endl;
+        }
+        // if(Y[5] < 0) {
+        //     cout << nline << "\t" << Y[5] << endl;
+        //     cout << X[5] << "\t" << Y[5] << "\t" << Xmean[5] << "\t" << endl;
+        // }
+        // if(nline == 2928 || nline == 3701){
+        //     cout << nline << "\t" << endl;
+        // }
         ofs  << scientific;
         ofs  << Y[0] << "\t" << Y[1] << "\t" << Y[2] << "\t" << Y[3] << "\t" << Y[4] << "\t" << Y[5] << endl;
         nline++;
@@ -133,19 +158,23 @@ void mean(string fname){
 
 void diff(){
     for(int i = 0 ; i < n ; i++){
+        if(i == 5 && X[i] < 0 ) cout << "Origin is minus" << endl;
         X[i] = X[i] - Xmean[i];
     }
 }
 
 void unit(){
+    // Ek = Ek * 1.e+3; // MeV -> keV
     X[5] = X[5] * 1.e+3; // MeV -> keV
 }
 
 void trans(){
     for(int i = 0 ; i < n ; i++ ){
         for(int j = 0 ; j < n ; j++){
+            // cout << R[i][j] << "\t" ;
             Y[i] += R[i][j] * X[j];
         }
+        // cout << endl;
     }
 }
 
