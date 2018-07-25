@@ -65,7 +65,7 @@ void transfer(string outputfile = "rfqll_trans.dat"){
         unitorigin();
         // cout << Y[0] << "\t" << Y[1] << "\t" << Y[2] << "\t" << Y[3] << "\t" << Y[4] << "\t" << Y[5] << " MeV " << endl;
         ofs  << scientific;
-        ofs  << X[0] << "\t" << X[1] << "\t" << X[2] << "\t" << X[3] << "\t" << X[4] << "\t" << X[5] << endl;
+        ofs  << Y[0] << "\t" << Y[1] << "\t" << Y[2] << "\t" << Y[3] << "\t" << Y[4] << "\t" << Y[5] << endl;
         nline++;
     }
 
