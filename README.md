@@ -33,6 +33,7 @@ Base data is rfqll.dsta or rfqll.dat. These are the output data from RFQ simulat
 
 ### rfqll_trans.dat
     - Times transfer matrix, using "~/macro/muonLinac/rfq/transfer.cc" .
+    - exclude kinetic energy < 0 data  :  Entry is 16,116 -> 16,114  (2 data is died)
     - Transfer matrix is made by TRACE3D "~/data/muonLinac/TRACE3D/RFQoutput_4QM_gap_matching.t3d"
         x[mm]	x'[mrad]        y[mm]   y'[mrad]         phase[deg]	KineticEnergy[MeV]
 
