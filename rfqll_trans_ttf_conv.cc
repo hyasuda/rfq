@@ -24,8 +24,9 @@ double P;
 void conv();
 
 // AFTER TRANSFER MATRIX //
-const string inputfile = "rfqll_trans.dat";
-void rfqll_trans_ttf_conv(string outputfile = "rfqll_trans_output.dat"){
+// const string inputfile = "rfqll_trans.dat";
+// void rfqll_trans_ttf_conv(string inputfile, string outputfile = "rfqll_trans_output.dat"){
+void rfqll_trans_ttf_conv(string inputfile, string outputfile){
 
     ifstream ifs(Form("/Users/YASUDA/data/muonLinac/rfq/%s", inputfile.c_str()));   // Input  file name
     ofstream ofs(Form("/Users/YASUDA/data/muonLinac/rfq/%s", outputfile.c_str())); // Output file name for muon after rfq
