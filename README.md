@@ -7,7 +7,7 @@ Base data is rfqll.dsta or rfqll.dat. These are the output data from RFQ simulat
 
 ## RFQ output macro "~/macro/muonLinac/rfq/"
 
-### rfq_ttf_conv.cc (tring outputfile = "rfqll_trans_output.dat")
+### rfq_ttf_conv.cc (string inputfile , string outputfile)
     - Convert the original file (rfqll.dat) to TurtleFile format.
 
 ### transfer.cc (string outputfile = "rfqll_trans.dat")
