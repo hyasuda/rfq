@@ -41,6 +41,15 @@ double Gamma = 0;
 
 // Transfer matrix definition //
 // const int n = 6;
+// const double R[n][n] = {
+//     {  0.229,  0.358,  0.   ,  0.   ,  0.   ,  0.   },
+//     { -2.629,  0.253,  0.   ,  0.   ,  0.   ,  0.   },
+//     {  0.   ,  0.   , -1.743,  0.262,  0.   ,  0.   },
+//     {  0.   ,  0.   , -2.857, -0.145,  0.   ,  0.   },
+//     {  0.   ,  0.   ,  0.   ,  0.   ,  1.   ,  0.   },
+//     {  0.   ,  0.   ,  0.   ,  0.   ,  0.   ,  1.   },
+// };
+
 const double R[n][n] = {
     {  0.229,  0.358,  0.   ,  0.   ,  0.   ,  0.   },
     { -2.629,  0.253,  0.   ,  0.   ,  0.   ,  0.   },
@@ -73,21 +82,34 @@ void transfer(string outputfile = "rfqll_trans.dat"){
     int nline = 0;
 
     while(ifs >> X[0] >> X[1] >> X[2] >> X[3] >> X[4] >> X[5] ){
-        cout << "nline : " << nline << endl;
+        // if(nline < 2) cout << "nline : " << nline << endl;
         // if(nline > 3) break; // for debug
-        for(int i = 0 ; i < 6 ; i++ ){
-            cout << X[i] << "\t" ;
-        }
-        cout << endl;
+        // if(nline < 2){
+        //     for(int i = 0 ; i < 6 ; i++ ){
+        //         cout << X[i] << "\t" ;
+        //     }
+        //     cout << endl;
+        // }
         unit();
         trans();
+        // if(nline < 2){
+        //     // if(Y[5] < 0 ) continue;
+        //     for(int i = 0 ; i < 6 ; i++ ){
+        //         cout << Y[i] << "\t" ;
+        //     }
+        //     cout << endl;
+        // }
         unitorigin();
-        if(Y[5] < 0 ) continue;
-        for(int i = 0 ; i < 6 ; i++ ){
-            cout << Y[i] << "\t" ;
-        }
+        // if(nline < 2){
+        //     // if(Y[5] < 0 ) continue;
+        //     for(int i = 0 ; i < 6 ; i++ ){
+        //         cout << Y[i] << "\t" ;
+        //     }
+        //     cout << endl;
+        // }
         ofs  << scientific;
         ofs  << Y[0] << "\t" << Y[1] << "\t" << Y[2] << "\t" << Y[3] << "\t" << Y[4] << "\t" << Y[5] << endl;
+        // ofs  << Y[0] << "\t" << Y[1] << "\t" << Y[2] << "\t" << Y[3] << "\t" << X[4] << "\t" << X[5] << endl;
         nline++;
         reset();
     }
@@ -120,11 +142,10 @@ void mean(string fname){
     Xmean[3] = ypsum/nline;
     Xmean[4] = phisum/nline;
     Xmean[5] = Wsum/nline;
-    // cout << "#####  AVERAGE  #####" << endl;
-    // cout << scientific ; cout.precision(4);
-    // cout << "Enrty = " << nline << endl;
-    // cout << "x[mm]   " << "\t" << "xp[mrad]" << "\t" << "y[mm]   " << "\t" << "yp[mrad]" << "\t" << "phi[deg]" << "\t" << "W[MeV]" << endl;
-    // cout << Xmean[0] << "\t" << Xmean[1] << "\t" << Xmean[2] << "\t" << Xmean[3] << "\t" << Xmean[4] << "\t" << Xmean[5] << endl;
+    cout << "#####  AVERAGE  #####" << endl;
+    cout << "Enrty = " << nline << endl;
+    cout << "x[mm]   " << "\t" << "xp[mrad]" << "\t" << "y[mm]   " << "\t" << "yp[mrad]" << "\t" << "phi[deg]" << "\t" << "W[MeV]" << endl;
+    cout << Xmean[0] << "\t" << Xmean[1] << "\t" << Xmean[2] << "\t" << Xmean[3] << "\t" << Xmean[4] << "\t" << Xmean[5] << endl;
 }
 
 void beta_calc(double ke){
@@ -149,12 +170,13 @@ void Gamma_calc( double beta_val ){
 // }
 
 void unit(){
-    Y[0] = X[0] - Xmean[0];
-    Y[1] = X[1] - Xmean[1];
-    Y[2] = X[2] - Xmean[2];
-    Y[3] = X[3] - Xmean[3];
-    Y[4] = -beta * lambda / 360 * ( X[4] - Xmean[4] );
-    Y[5] = Gamma/(Gamma + 1) * (X[5] - Xmean[5])/X[5] * 1.e+3;
+    X[0] = X[0] - Xmean[0];
+    X[1] = X[1] - Xmean[1];
+    X[2] = X[2] - Xmean[2];
+    X[3] = X[3] - Xmean[3];
+    X[4] = -beta * lambda / 360 * ( X[4] - Xmean[4] );
+    // Y[5] = Gamma/(Gamma + 1) * (X[5] - Xmean[5])/Xmean[5] * 1.e+3;
+    X[5] = Gamma/(Gamma + 1) * (X[5] - Xmean[5])/Xmean[5] * 1.e+3; // X ~ Xmean
 }
 
 void trans(){
