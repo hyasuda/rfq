@@ -39,17 +39,6 @@ double Y[n]     = {}; // x, xp, y, yp, phi, Ek
 double beta  = 0;
 double Gamma = 0;
 
-// Transfer matrix definition //
-// const int n = 6;
-// const double R[n][n] = {
-//     {  0.229,  0.358,  0.   ,  0.   ,  0.   ,  0.   },
-//     { -2.629,  0.253,  0.   ,  0.   ,  0.   ,  0.   },
-//     {  0.   ,  0.   , -1.743,  0.262,  0.   ,  0.   },
-//     {  0.   ,  0.   , -2.857, -0.145,  0.   ,  0.   },
-//     {  0.   ,  0.   ,  0.   ,  0.   ,  1.   ,  0.   },
-//     {  0.   ,  0.   ,  0.   ,  0.   ,  0.   ,  1.   },
-// };
-
 const double R[n][n] = {
     {  0.229,  0.358,  0.   ,  0.   ,  0.   ,  0.   },
     { -2.629,  0.253,  0.   ,  0.   ,  0.   ,  0.   },
@@ -136,12 +125,12 @@ void mean(string fname){
         Wsum   += W;
         nline++;
     }
-    Xmean[0] = xsum/nline;
-    Xmean[1] = xpsum/nline;
-    Xmean[2] = ysum/nline;
-    Xmean[3] = ypsum/nline;
-    Xmean[4] = phisum/nline;
-    Xmean[5] = Wsum/nline;
+    Xmean[0] = xsum/nline;   // [mm]
+    Xmean[1] = xpsum/nline;  // [mm]
+    Xmean[2] = ysum/nline;   // [mm]
+    Xmean[3] = ypsum/nline;  // [mm]
+    Xmean[4] = phisum/nline; // [deg]
+    Xmean[5] = Wsum/nline;   // [MeV]
     cout << "#####  AVERAGE  #####" << endl;
     cout << "Enrty = " << nline << endl;
     cout << "x[mm]   " << "\t" << "xp[mrad]" << "\t" << "y[mm]   " << "\t" << "yp[mrad]" << "\t" << "phi[deg]" << "\t" << "W[MeV]" << endl;
@@ -192,7 +181,7 @@ void unitorigin(){
     Y[1] = Y[1] + Xmean[1]; // mm
     Y[2] = Y[2] + Xmean[2]; // mm
     Y[3] = Y[3] + Xmean[3]; // mm
-    Y[4] = -360/(beta * lambda) * Y[4]; // mm
+    Y[4] = -360/(beta * lambda) * Y[4] + Xmean[4]; // mm
     Y[5] = Y[5] * 1.e-3; // mrad -> rad
     Y[5] = Gamma * Xmean[5] / (Gamma - (Gamma + 1) * Y[5]); // [MeV]
     // Y[5] = Xmean[5] * (1 + (Gamma + 1)/Gamma * Y[5]); // delta W / W ~ (W-<W>)/<W> [MeV]
